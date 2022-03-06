@@ -2,7 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class Player : MonoBehaviour {
+
+    [SerializeField] private DialogueUI dialogueUI;
+    public DialogueUI DialogueUI => dialogueUI;
+    public IInteractable Interactable { get; set; }
+
+
     // Speed & Movement
     public float speed;
     public float jumpForce;
@@ -80,6 +86,11 @@ public class PlayerMovement : MonoBehaviour {
             } else {
                 rb.velocity = new Vector2(rb.velocity.x, speed+5);
             }
+        }
+
+
+        if (Input.GetKeyDown(KeyCode.E)) {
+            Interactable?.Interact(this);
         }
     }
 
