@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: MiddleSign
   m_EditorClassIdentifier: 
   dialogue:
+  - Hello!
   - That's Middle Sign

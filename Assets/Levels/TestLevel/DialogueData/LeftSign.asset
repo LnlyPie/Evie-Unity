@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: LeftSign
   m_EditorClassIdentifier: 
   dialogue:
+  - Hi!
   - That's Left Sign
