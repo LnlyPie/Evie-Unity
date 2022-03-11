@@ -16,7 +16,7 @@ public class Player : MonoBehaviour {
     private float jumpFloat;
     private bool facingRight = true;
 
-    public bool unlimitedJumpMode;
+    public static bool unlimitedJumpMode;
     private int extraJumps;
     public int extraJumpsValue;
 
