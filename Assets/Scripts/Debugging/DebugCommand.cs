@@ -32,3 +32,16 @@ public class DebugCommand : DebugCommandBase
         command.Invoke();
     }
 }
+
+public class DebugCommand<T1> : DebugCommandBase
+{
+    private Action<T1> command;
+
+    public DebugCommand(string id, string desc, string form, Action<T1> command) : base(id, desc, form) {
+        this.command = command;
+    }
+
+    public void Invoke(T1 value) {
+        command.Invoke(value);
+    }
+}
