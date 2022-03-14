@@ -93,7 +93,9 @@ public class Player : MonoBehaviour {
 
 
         if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown("joystick button 2")) {
-            Interactable?.Interact(this);
+            if (DialogueUI.isOpen == false) {
+                Interactable?.Interact(this);
+            }
         }
     }
 

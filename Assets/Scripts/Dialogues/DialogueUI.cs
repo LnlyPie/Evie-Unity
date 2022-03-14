@@ -7,7 +7,7 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] private GameObject dialogueBox;
     [SerializeField] private TMP_Text textLabel;
 
-    public bool IsOpen { get; private set; }
+    public bool isOpen { get; private set; }
 
     private TypeWriterEffect typeWriterEffect;
 
@@ -17,7 +17,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     public void ShowDialogue(DialogueObject dialogueObject) {
-        IsOpen = true;
+        isOpen = true;
         dialogueBox.SetActive(true);
         StartCoroutine(StepThroughDialogue(dialogueObject));
     }
@@ -25,14 +25,14 @@ public class DialogueUI : MonoBehaviour
     private IEnumerator StepThroughDialogue(DialogueObject dialogueObject) {
         foreach (string dialogue in dialogueObject.Dialogue) {
             yield return typeWriterEffect.Run(dialogue, textLabel);
-            yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown("joystick button 3")));
+            yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown("joystick button 2")));
         }
 
         CloseDialogueBox();
     }
 
     private void CloseDialogueBox() {
-        IsOpen = false;
+        isOpen = false;
         dialogueBox.SetActive(false);
         textLabel.text = string.Empty;
     }

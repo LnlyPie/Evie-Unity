@@ -490,7 +490,9 @@ MonoBehaviour:
   dialogueUI: {fileID: 118227220}
   speed: 4.5
   jumpForce: 10.5
+  fly_mode: 0
   extraJumpsValue: 1
+  rb: {fileID: 0}
   groundCheck: {fileID: 192975207}
   checkRadius: 0.8
   whatIsGround:
@@ -7666,10 +7668,10 @@ MonoBehaviour:
 
     Use '' E '' to Interact
 
-    Use '' Space
-    '' to show next message
+    Use '' ` '' to
+    access the Debug Console
 
-    Use '' ` '' to access the Debug Console'
+    Left Joystick, A, X, Start for Xbox Controller'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
