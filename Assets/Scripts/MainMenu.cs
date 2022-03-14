@@ -13,6 +13,10 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
+    public void GameJolt() {
+        SceneManager.LoadScene("GameJoltUI");
+    }
+
     public void BugsBtn() {
         SceneManager.LoadScene("Bugs");
     }

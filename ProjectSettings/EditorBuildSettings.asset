@@ -14,4 +14,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Levels/TestLevel/Bugs.unity
     guid: eb8ab50a321332b49842d064900b6fca
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/Levels/GameJolt/GameJoltUI.unity
+    guid: be2b50d199de26844b5bd80293ee2143
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: a486d23ff5ac0de4785e52fc16afc077, type: 2}

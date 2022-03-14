@@ -7,9 +7,12 @@ using UnityEngine.InputSystem;
 
 public class DebugController : MonoBehaviour
 {
+    GameJoltUIScript gamej = new GameJoltUIScript();
+
     // Commands
     public static DebugCommand EXIT_GAME;
     public static DebugCommand UNLIM_JUMP_MODE;
+    public static DebugCommand CURSOR_VIS;
     public static DebugCommand HELP;
 
     public List<object> commandList;
@@ -18,7 +21,9 @@ public class DebugController : MonoBehaviour
     [SerializeField] private TMP_Text outputText;
     [SerializeField] private TMP_InputField consoleField;
     bool consoleStatus = false;
+
     bool showHelp;
+    bool cursor_visible = true;
     string input;
 
     private void Start() {
@@ -27,11 +32,14 @@ public class DebugController : MonoBehaviour
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.BackQuote)) {
+        if (Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown("joystick button 7")) {
             OpenConsole();
         }
 
         if (consoleStatus == true) {
+            if (gamej.playerLoggedIn == true) {
+                gamej.UnlockTrophy(158872);
+            }
             if (Input.GetKeyDown(KeyCode.Return)) {
                 input = consoleField.text.ToString();
                 HandleInput();
@@ -64,15 +72,26 @@ public class DebugController : MonoBehaviour
             }
         });
 
+        CURSOR_VIS = new DebugCommand("cursor_vis", "Shows/Hides cursor.", "cursor_vis", () => {
+            if (cursor_visible) {
+                Cursor.visible = false;
+                cursor_visible = false;
+            } else {
+                Cursor.visible = true;
+                cursor_visible = true;
+            }
+        });
+
         HELP = new DebugCommand("help", "Shows a list of commands", "help", () => {
             // temporary done like this
-            outputText.text = "\'help\' - Shows a list of commands \n\'exit\' - Exits the game \n\'unlim_jump\' - Enables/Disables Unlimited Jump Mode";
+            outputText.text = "\'help\' - Shows a list of commands \n\'exit\' - Exits the game \n\'unlim_jump\' - Enables/Disables Unlimited Jump Mode \n\'cursor_vis\' - Shows/Hides cursor";
         });
 
         commandList = new List<object> {
             HELP,
             EXIT_GAME,
-            UNLIM_JUMP_MODE
+            UNLIM_JUMP_MODE,
+            CURSOR_VIS
         };
     }
 

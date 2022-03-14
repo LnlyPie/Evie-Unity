@@ -13,14 +13,16 @@ public class Player : MonoBehaviour {
     public float speed;
     public float jumpForce;
     private float moveInput;
-    private float jumpFloat;
+    private bool jumpInput;
+    private bool jumpInputPad;
     private bool facingRight = true;
 
     public static bool unlimitedJumpMode;
+    public bool fly_mode = false;
     private int extraJumps;
     public int extraJumpsValue;
 
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     private Animator anim;
 
     // Ground
@@ -39,7 +41,8 @@ public class Player : MonoBehaviour {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
 
         moveInput = Input.GetAxis("Horizontal");
-        jumpFloat = Input.GetAxis("Vertical");
+        jumpInput = Input.GetKey(KeyCode.UpArrow);
+        jumpInputPad = Input.GetKey("joystick button 0");
         rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
 
         if (facingRight == false && moveInput > 0) {
@@ -48,7 +51,7 @@ public class Player : MonoBehaviour {
             Flip();
         }
 
-        if (moveInput > 0f | moveInput < 0f)
+        if (moveInput > 0f || moveInput < 0f)
         {
             anim.SetBool("moving", true);
         }
@@ -57,7 +60,7 @@ public class Player : MonoBehaviour {
             anim.SetBool("moving", false);
         }
 
-        if (jumpFloat > 0f | jumpFloat < 0f)
+        if (jumpInput || jumpInputPad)
         {
             anim.SetBool("moving", false);
             anim.SetBool("jumping", true);
@@ -73,23 +76,23 @@ public class Player : MonoBehaviour {
             extraJumps = extraJumpsValue;
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && extraJumps > 0) {
-            if (!unlimitedJumpMode == true) {
+        if (Input.GetKeyDown(KeyCode.UpArrow) && extraJumps > 0 || Input.GetKeyDown("joystick button 0") && extraJumps > 0) {
+            if (unlimitedJumpMode == true) {
+                rb.velocity = new Vector2(rb.velocity.x, speed+5);
+            } else {
                 rb.velocity = Vector2.up * jumpForce;
                 extraJumps--;
-            } else {
-                rb.velocity = new Vector2(rb.velocity.x, speed+5);
             }
-        } else if (Input.GetKeyDown(KeyCode.UpArrow) && extraJumps == 0 && isGrounded == true) {
-            if (!unlimitedJumpMode == true) {
-                rb.velocity = Vector2.up * jumpForce;
-            } else {
+        } else if (Input.GetKeyDown(KeyCode.UpArrow) && extraJumps == 0 && isGrounded == true || Input.GetKeyDown("joystick button 0") && extraJumps == 0 && isGrounded == true) {
+            if (unlimitedJumpMode == true) {
                 rb.velocity = new Vector2(rb.velocity.x, speed+5);
+            } else {
+                rb.velocity = Vector2.up * jumpForce;
             }
         }
 
 
-        if (Input.GetKeyDown(KeyCode.E)) {
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown("joystick button 2")) {
             Interactable?.Interact(this);
         }
     }

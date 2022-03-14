@@ -1,14 +1,17 @@
-﻿using GameJolt.API;
+using GameJolt.API;
 using GameJolt.UI;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameJoltUIScript : MonoBehaviour {
 	public Button ShowTrophiesButton;
-	private int notificationQueued;
+	public bool playerLoggedIn = false;
 
 	public void AutoLoginCallback(AutoLoginResult result) {
 		Debug.Log(string.Format("Auto login result: {0}", result));
+		DownloadAvatar();
+		playerLoggedIn = true;
 	}
 
 	public void SignInButtonClicked() {
@@ -21,7 +24,12 @@ public class GameJoltUIScript : MonoBehaviour {
 			}
 		}, userFetchSuccess => {
 			Debug.Log(string.Format("User's Information Fetch {0}.", userFetchSuccess ? "Successful" : "Failed"));
-			DownloadAvatar();
+			if (userFetchSuccess == true) {
+				DownloadAvatar();
+				SendNotification("Sign In Successful");
+				playerLoggedIn = true;
+				UnlockTrophy(158932);
+			}
 		});
 	}
 
@@ -37,13 +45,21 @@ public class GameJoltUIScript : MonoBehaviour {
 			Debug.LogFormat("Downloading avatar {0}", success ? "succeeded" : "failed"));
 	}
 
-	public void QueueNotification() {
+	public void SendNotification(string text) {
 		GameJoltUI.Instance.QueueNotification(
-			string.Format("Notification <b>#{0}</b>", ++notificationQueued));
+			string.Format(text));
 	}
 
 	public void ShowLeaderboards() {
 		GameJoltUI.Instance.ShowLeaderboards();
+	}
+
+	public void ShowTrophies() {
+		GameJoltUI.Instance.ShowTrophies();
+	}
+
+	public void GoBack() {
+		SceneManager.LoadScene("MainMenu");
 	}
 
 	public void Pause() {
@@ -52,5 +68,21 @@ public class GameJoltUIScript : MonoBehaviour {
 
 	public void Resume() {
 		Time.timeScale = 1f;
+	}
+
+	public void UnlockTrophy(int id) {
+		GameJolt.API.Trophies.TryUnlock(id, (TryUnlockResult result) => {
+      switch(result) {
+        case TryUnlockResult.Unlocked:
+          Debug.Log("You've unlocked the trophy!");
+          break;
+        case TryUnlockResult.AlreadyUnlocked:
+          Debug.Log("The trophy was already unlocked");
+          break;
+        case TryUnlockResult.Failure:
+          Debug.LogError("Something went wrong!");
+          break;
+			}
+		});
 	}
 }

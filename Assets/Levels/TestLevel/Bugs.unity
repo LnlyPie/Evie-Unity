@@ -572,7 +572,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Known Bugs\n\nv. 0.0.0a:\n - Player gets sometimes stuck in ground"
+  m_text: "Known Bugs\n\nv. 0.0.1a/0.0.2a/0.0.3a:\n - Player gets sometimes stuck
+    in ground\nv. 0.0.4a:\n - None"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
