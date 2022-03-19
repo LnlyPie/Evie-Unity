@@ -13,6 +13,9 @@ public class DebugController : MonoBehaviour
     public static DebugCommand EXIT_GAME;
     public static DebugCommand UNLIM_JUMP_MODE;
     public static DebugCommand CURSOR_VIS;
+    public static DebugCommand SHOW_DEBUG;
+    public static DebugCommand GHOST_MODE;
+    public static DebugCommand FLY_MODE;
     public static DebugCommand HELP;
 
     public List<object> commandList;
@@ -24,6 +27,7 @@ public class DebugController : MonoBehaviour
 
     bool showHelp;
     bool cursor_visible = true;
+    public static bool debug_visible = false;
     string input;
 
     private void Start() {
@@ -82,16 +86,47 @@ public class DebugController : MonoBehaviour
             }
         });
 
+        SHOW_DEBUG = new DebugCommand("show_debug", "Shows/Hides debug info.", "show_debug", () => {
+            if (debug_visible) {
+                debug_visible = false;
+            } else {
+                debug_visible = true;
+            }
+        });
+
+        GHOST_MODE = new DebugCommand("ghost", "Enables/Disables player collisions", "ghost", () => {
+            if (Player.ghost_mode == false) {
+                Player.bc.isTrigger = true;
+                Player.ghost_mode = true;
+            } else {
+                Player.bc.isTrigger = false;
+                Player.ghost_mode = false;
+            }
+        });
+
+        FLY_MODE = new DebugCommand("fly", "Enables/Disables player physics", "fly", () => {
+            if (Player.fly_mode == false) {
+                Player.rb.gravityScale = 0.0f;
+                Player.fly_mode = true;
+            } else {
+                Player.rb.gravityScale = Player.gravity;
+                Player.fly_mode = false;
+            }
+        });
+
         HELP = new DebugCommand("help", "Shows a list of commands", "help", () => {
             // temporary done like this
-            outputText.text = "\'help\' - Shows a list of commands \n\'exit\' - Exits the game \n\'unlim_jump\' - Enables/Disables Unlimited Jump Mode \n\'cursor_vis\' - Shows/Hides cursor";
+            outputText.text = "\'help\' - Shows a list of commands \n\'exit\' - Exits the game \n\'unlim_jump\' - Enables/Disables Unlimited Jump Mode \n\'cursor_vis\' - Shows/Hides cursor\n\'show_fps\' - Shows/Hides framerate";
         });
 
         commandList = new List<object> {
             HELP,
             EXIT_GAME,
             UNLIM_JUMP_MODE,
-            CURSOR_VIS
+            CURSOR_VIS,
+            SHOW_DEBUG,
+            GHOST_MODE,
+            FLY_MODE
         };
     }
 

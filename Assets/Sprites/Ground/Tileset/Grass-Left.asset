@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Dirt-Placeholder
+  m_Name: Grass-Left
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: 7eb7cc2a7ce174c468baa9800dcf3116, type: 3}
+  m_Sprite: {fileID: -4328780961506335703, guid: ce8706a4e8b62ba40bc5f48ed927420c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
