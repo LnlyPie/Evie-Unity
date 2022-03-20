@@ -17,6 +17,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     public void ShowDialogue(DialogueObject dialogueObject) {
+        Player.canMove = false;
         isOpen = true;
         dialogueBox.SetActive(true);
         StartCoroutine(StepThroughDialogue(dialogueObject));
@@ -32,6 +33,7 @@ public class DialogueUI : MonoBehaviour
     }
 
     private void CloseDialogueBox() {
+        Player.canMove = true;
         isOpen = false;
         dialogueBox.SetActive(false);
         textLabel.text = string.Empty;

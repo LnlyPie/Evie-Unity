@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
- using UnityEngine.UI;
- using TMPro;
+using UnityEngine.UI;
+using TMPro;
 
 public class DebugController : MonoBehaviour
 {
@@ -16,7 +17,8 @@ public class DebugController : MonoBehaviour
     public static DebugCommand SHOW_DEBUG;
     public static DebugCommand GHOST_MODE;
     public static DebugCommand FLY_MODE;
-    public static DebugCommand HELP;
+
+    public static DebugCommand<int> SET_TIME;
 
     public List<object> commandList;
 
@@ -33,10 +35,11 @@ public class DebugController : MonoBehaviour
     private void Start() {
         consoleBox.SetActive(false);
         outputText.text = "";
+        input = null;
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown("joystick button 7")) {
+        if (Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown("joystick button 5")) {
             OpenConsole();
         }
 
@@ -114,19 +117,18 @@ public class DebugController : MonoBehaviour
             }
         });
 
-        HELP = new DebugCommand("help", "Shows a list of commands", "help", () => {
-            // temporary done like this
-            outputText.text = "\'help\' - Shows a list of commands \n\'exit\' - Exits the game \n\'unlim_jump\' - Enables/Disables Unlimited Jump Mode \n\'cursor_vis\' - Shows/Hides cursor\n\'show_fps\' - Shows/Hides framerate";
+        SET_TIME = new DebugCommand<int>("set_time", "Sets timeScale", "set_time", (x) => {
+            Time.timeScale = x;
         });
 
         commandList = new List<object> {
-            HELP,
             EXIT_GAME,
             UNLIM_JUMP_MODE,
             CURSOR_VIS,
             SHOW_DEBUG,
             GHOST_MODE,
-            FLY_MODE
+            FLY_MODE,
+            SET_TIME
         };
     }
 
@@ -134,9 +136,16 @@ public class DebugController : MonoBehaviour
         string[] properties = input.Split(' ');
 
         for (int i=0; i<commandList.Count; i++) {
-            DebugCommandBase commandBase = commandList[i] as DebugCommandBase;
+            DebugCommandBase commandBase = (commandList[i] as DebugCommandBase);
+
             if (input.Contains(commandBase.commandId)) {
-                (commandList[i] as DebugCommand).Invoke();
+                if (input.Contains("0") || input.Contains("1")) {
+                    Debug.Log(input);
+                    (commandList[i] as DebugCommand<int>).Invoke(int.Parse(properties[1]));
+                } else {
+                    Debug.Log(input);
+                    (commandList[i] as DebugCommand).Invoke();
+                }
             }
         }
     }

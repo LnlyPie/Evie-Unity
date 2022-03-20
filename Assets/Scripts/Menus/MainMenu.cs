@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    GameJoltUIScript gamej = new GameJoltUIScript();
+
     public void PlayGame() {
         SceneManager.LoadScene("TestLevel");
     }
@@ -19,5 +21,11 @@ public class MainMenu : MonoBehaviour
 
     public void BugsBtn() {
         SceneManager.LoadScene("Bugs");
+    }
+
+    public void CheckPlayerLogin() {
+        if (!gamej.playerLoggedIn) {
+            gamej.SendNotification("Login");
+        }
     }
 }

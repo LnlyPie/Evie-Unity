@@ -6,17 +6,17 @@ using System;
 public class DebugCommandBase : MonoBehaviour
 {
     private string _commandId;
-    private string _commandDesc;
-    private string _commandForm;
+    private string _commandDescription;
+    private string _commandFormat;
 
     public string commandId { get { return _commandId; } }
-    public string commandDesc { get { return _commandDesc; } }
-    public string commandForm { get { return _commandForm; } }
+    public string commandDescription { get { return _commandDescription; } }
+    public string commandFormat { get { return _commandFormat; } }
 
-    public DebugCommandBase(string id, string desc, string form) {
+    public DebugCommandBase(string id, string description, string format) {
         _commandId = id;
-        _commandDesc = desc;
-        _commandForm = form;
+        _commandDescription = description;
+        _commandFormat = format;
     }
 }
 
@@ -24,7 +24,7 @@ public class DebugCommand : DebugCommandBase
 {
     private Action command;
 
-    public DebugCommand(string id, string desc, string form, Action command) : base (id, desc, form) {
+    public DebugCommand(string id, string description, string format, Action command) : base(id, description, format) {
         this.command = command;
     }
 
@@ -37,7 +37,7 @@ public class DebugCommand<T1> : DebugCommandBase
 {
     private Action<T1> command;
 
-    public DebugCommand(string id, string desc, string form, Action<T1> command) : base(id, desc, form) {
+    public DebugCommand(string id, string description, string format, Action<T1> command) : base(id, description, format) {
         this.command = command;
     }
 
