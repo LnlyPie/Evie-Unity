@@ -4,11 +4,22 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public AudioSource playerJump;
+    static AudioSource audioSrc;
+
+    public static AudioClip playerJump;
+    public static AudioClip playerJumpSec;
+
+    void Start() {
+        playerJump = Resources.Load<AudioClip>("player_jump");
+        playerJumpSec = Resources.Load<AudioClip>("player_jump_sec");
+        audioSrc = GetComponent<AudioSource>();
+    }
 
     public void PlaySoundEffect(string effect) {
         if (effect == "jump") {
-            playerJump.Play();
+            audioSrc.PlayOneShot(playerJump);
+        } else if (effect == "jump2") {
+            audioSrc.PlayOneShot(playerJumpSec);
         }
     }
 }

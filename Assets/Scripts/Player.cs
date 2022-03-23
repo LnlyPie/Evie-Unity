@@ -27,6 +27,7 @@ public class Player : MonoBehaviour {
     public static bool fly_mode = false;
     private int extraJumps;
     public int extraJumpsValue;
+    private int jumps;
     public static float gravity = 2.0f;
 
     public static Rigidbody2D rb;
@@ -79,6 +80,7 @@ public class Player : MonoBehaviour {
 
             if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey("joystick button 4")) {
                 rb.velocity = new Vector2(moveInput * (speed * 1.55f), rb.velocity.y);
+                jumpForce = jumpForceVar * 1.05f;
             }
         }
         else
@@ -100,6 +102,7 @@ public class Player : MonoBehaviour {
     private void Update() {
         if (isGrounded == true) {
             extraJumps = extraJumpsValue;
+            jumps = (extraJumps + 1);
         }
 
         if ( (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown("joystick button 0")) && extraJumps > 0 && canMove) {
@@ -111,7 +114,13 @@ public class Player : MonoBehaviour {
                 CreateDust();
                 rb.velocity = Vector2.up * jumpForce;
                 extraJumps--;
-                soundMan.PlaySoundEffect("jump");
+                if (jumps == 2) {
+                    jumps--;
+                    soundMan.PlaySoundEffect("jump");
+                } else if (jumps == 1) {
+                    jumps--;
+                    soundMan.PlaySoundEffect("jump2");
+                }
             }
         } else if ( (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown("joystick button 0")) && extraJumps == 0 && isGrounded && canMove) {
             if (unlimitedJumpMode) {
