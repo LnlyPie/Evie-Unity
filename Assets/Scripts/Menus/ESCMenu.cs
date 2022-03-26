@@ -39,11 +39,13 @@ public class ESCMenu : MonoBehaviour
         menuOpen = true;
         escMenu.gameObject.SetActive(true);
         Time.timeScale = 0;
+        DiscordController.ChangeActivity("Paused", "asign", "Paused");
     }
 
     void HideMenu() {
         menuOpen = false;
         escMenu.gameObject.SetActive(false);
         Time.timeScale = 1;
+        DiscordController.ChangeActivity("Playing", "gamelogo", "Playing");
     }
 }

@@ -19,6 +19,9 @@ public class DebugController : MonoBehaviour
     public static DebugCommand FLY_MODE;
 
     public static DebugCommand<int> SET_TIME;
+    public static DebugCommand<int> SET_HEALTH;
+    public static DebugCommand<int> SET_MAX_HEALTH;
+    public static DebugCommand<int> DAMAGE_PLAYER;
 
     public List<object> commandList;
 
@@ -43,8 +46,8 @@ public class DebugController : MonoBehaviour
             OpenConsole();
         }
 
-        if (consoleStatus == true) {
-            if (gamej.playerLoggedIn == true) {
+        if (consoleStatus) {
+            if (gamej.playerLoggedIn) {
                 gamej.UnlockTrophy(158872);
             }
             if (Input.GetKeyDown(KeyCode.Return)) {
@@ -56,11 +59,11 @@ public class DebugController : MonoBehaviour
     }
 
     private void OpenConsole() {
-        if (consoleStatus == false) {
+        if (!consoleStatus) {
             consoleStatus = true;
             consoleBox.SetActive(true);
         }
-        else if (consoleStatus == true) {
+        else if (consoleStatus) {
             consoleStatus = false;
             consoleBox.SetActive(false);
         }
@@ -72,7 +75,7 @@ public class DebugController : MonoBehaviour
         });
 
         UNLIM_JUMP_MODE = new DebugCommand("unlim_jump", "Enables/Disables Unlimited Jump Mode.", "unlim_jump", () => {
-            if (Player.unlimitedJumpMode == false) {
+            if (Player.unlimitedJumpMode) {
                 Player.unlimitedJumpMode = true;
             } else if (Player.unlimitedJumpMode == true) {
                 Player.unlimitedJumpMode = false;
@@ -98,7 +101,7 @@ public class DebugController : MonoBehaviour
         });
 
         GHOST_MODE = new DebugCommand("ghost", "Enables/Disables player collisions", "ghost", () => {
-            if (Player.ghost_mode == false) {
+            if (Player.ghost_mode) {
                 Player.bc.isTrigger = true;
                 Player.ghost_mode = true;
             } else {
@@ -108,7 +111,7 @@ public class DebugController : MonoBehaviour
         });
 
         FLY_MODE = new DebugCommand("fly", "Enables/Disables player physics", "fly", () => {
-            if (Player.fly_mode == false) {
+            if (Player.fly_mode) {
                 Player.rb.gravityScale = 0.0f;
                 Player.fly_mode = true;
             } else {
@@ -117,18 +120,27 @@ public class DebugController : MonoBehaviour
             }
         });
 
-        SET_TIME = new DebugCommand<int>("set_time", "Sets timeScale", "set_time", (x) => {
+        SET_TIME = new DebugCommand<int>("set_time", "Sets timeScale", "set_time <num>", (x) => {
             Time.timeScale = x;
         });
 
+        SET_HEALTH = new DebugCommand<int>("set_health", "Sets Player Health", "set_health <num>", (x) => {
+            Health.SetHealth(x);
+        });
+
+        SET_MAX_HEALTH = new DebugCommand<int>("set_max_health", "Sets Player Max Health", "set_max_health <num>", (x) => {
+            Health.SetMaxHealth(x);
+        });
+
+        DAMAGE_PLAYER = new DebugCommand<int>("damage_player", "Takes damage to the player", "damage_player <num>", (x) => {
+            Health.TakeDamage(x);
+        });
+
         commandList = new List<object> {
-            EXIT_GAME,
-            UNLIM_JUMP_MODE,
-            CURSOR_VIS,
-            SHOW_DEBUG,
-            GHOST_MODE,
-            FLY_MODE,
-            SET_TIME
+            EXIT_GAME, UNLIM_JUMP_MODE, CURSOR_VIS,
+            SHOW_DEBUG, GHOST_MODE, FLY_MODE,
+            SET_TIME, SET_HEALTH, SET_MAX_HEALTH,
+            DAMAGE_PLAYER
         };
     }
 
@@ -139,7 +151,7 @@ public class DebugController : MonoBehaviour
             DebugCommandBase commandBase = (commandList[i] as DebugCommandBase);
 
             if (input.Contains(commandBase.commandId)) {
-                if (input.Contains("0") || input.Contains("1")) {
+                if (input.Contains(" ")) {
                     Debug.Log(input);
                     (commandList[i] as DebugCommand<int>).Invoke(int.Parse(properties[1]));
                 } else {
