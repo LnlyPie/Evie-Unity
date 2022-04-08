@@ -52,7 +52,7 @@ public class Player : MonoBehaviour {
         rb.gravityScale = gravity;
     }
 
-    private void FixedUpdate() {
+    private void Update() {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
 
         moveInput = Input.GetAxis("Horizontal");
@@ -97,9 +97,7 @@ public class Player : MonoBehaviour {
         {
             anim.SetBool("jumping", false);
         }
-    }
 
-    private void Update() {
         if (isGrounded == true) {
             extraJumps = extraJumpsValue;
             jumps = (extraJumps + 1);

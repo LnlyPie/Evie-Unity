@@ -16,6 +16,9 @@ public class Health : MonoBehaviour
     public Sprite fullHeart;
     public Sprite emptyHeart;
 
+    [Header("Damage")]
+    public GameObject damageTilemap;
+
     void Start() {
         numberOfHearts = numOfHearts;
         health = numberOfHearts;
@@ -42,7 +45,7 @@ public class Health : MonoBehaviour
         }
     }
 
-    public static void TakeDamage(int dmg) {
+    public static void DealDamage(int dmg) {
         health -= dmg;
     }
 
@@ -52,5 +55,11 @@ public class Health : MonoBehaviour
 
     public static void SetMaxHealth(int h) {
         numberOfHearts = h;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.gameObject.tag == "Dmg") {
+            DealDamage(1);
+        }
     }
 }

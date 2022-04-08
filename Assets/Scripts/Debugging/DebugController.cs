@@ -133,7 +133,7 @@ public class DebugController : MonoBehaviour
         });
 
         DAMAGE_PLAYER = new DebugCommand<int>("damage_player", "Takes damage to the player", "damage_player <num>", (x) => {
-            Health.TakeDamage(x);
+            Health.DealDamage(x);
         });
 
         commandList = new List<object> {
