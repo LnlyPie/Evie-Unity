@@ -23,7 +23,7 @@ public class Player : MonoBehaviour {
     private bool jumpInputPad;
     private bool facingRight = true;
 
-    public static bool unlimitedJumpMode;
+    public static bool unlimitedJumpMode = false;
     public static bool fly_mode = false;
     private int extraJumps;
     public int extraJumpsValue;
@@ -104,7 +104,7 @@ public class Player : MonoBehaviour {
         }
 
         if ( (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown("joystick button 0")) && extraJumps > 0 && canMove) {
-            if (unlimitedJumpMode == true) {
+            if (unlimitedJumpMode) {
                 CreateDust();
                 rb.velocity = new Vector2(rb.velocity.x, speed+5);
                 soundMan.PlaySoundEffect("jump");

@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class DebugController : MonoBehaviour
 {
@@ -13,7 +14,6 @@ public class DebugController : MonoBehaviour
     // Commands
     public static DebugCommand EXIT_GAME;
     public static DebugCommand UNLIM_JUMP_MODE;
-    public static DebugCommand CURSOR_VIS;
     public static DebugCommand SHOW_DEBUG;
     public static DebugCommand GHOST_MODE;
     public static DebugCommand FLY_MODE;
@@ -31,7 +31,7 @@ public class DebugController : MonoBehaviour
     bool consoleStatus = false;
 
     bool showHelp;
-    bool cursor_visible = true;
+    public static bool cursor_visible = false;
     public static bool debug_visible = false;
     string input;
 
@@ -56,6 +56,12 @@ public class DebugController : MonoBehaviour
                 consoleField.text = "";
             }
         }
+
+        if (!cursor_visible) {
+            Cursor.visible = false;
+        } else {
+            Cursor.visible = true;
+        }
     }
 
     private void OpenConsole() {
@@ -79,16 +85,6 @@ public class DebugController : MonoBehaviour
                 Player.unlimitedJumpMode = true;
             } else if (Player.unlimitedJumpMode == true) {
                 Player.unlimitedJumpMode = false;
-            }
-        });
-
-        CURSOR_VIS = new DebugCommand("cursor_vis", "Shows/Hides cursor.", "cursor_vis", () => {
-            if (cursor_visible) {
-                Cursor.visible = false;
-                cursor_visible = false;
-            } else {
-                Cursor.visible = true;
-                cursor_visible = true;
             }
         });
 
@@ -137,10 +133,9 @@ public class DebugController : MonoBehaviour
         });
 
         commandList = new List<object> {
-            EXIT_GAME, UNLIM_JUMP_MODE, CURSOR_VIS,
-            SHOW_DEBUG, GHOST_MODE, FLY_MODE,
-            SET_TIME, SET_HEALTH, SET_MAX_HEALTH,
-            DAMAGE_PLAYER
+            EXIT_GAME, UNLIM_JUMP_MODE, SHOW_DEBUG, 
+            GHOST_MODE, FLY_MODE, SET_TIME, 
+            SET_HEALTH, SET_MAX_HEALTH, DAMAGE_PLAYER
         };
     }
 
@@ -151,12 +146,12 @@ public class DebugController : MonoBehaviour
             DebugCommandBase commandBase = (commandList[i] as DebugCommandBase);
 
             if (input.Contains(commandBase.commandId)) {
-                if (input.Contains(" ")) {
-                    Debug.Log(input);
-                    (commandList[i] as DebugCommand<int>).Invoke(int.Parse(properties[1]));
-                } else {
+                if (!input.Any(Char.IsWhiteSpace)) {
                     Debug.Log(input);
                     (commandList[i] as DebugCommand).Invoke();
+                } else {
+                    Debug.Log(input);
+                    (commandList[i] as DebugCommand<int>).Invoke(int.Parse(properties[1]));
                 }
             }
         }

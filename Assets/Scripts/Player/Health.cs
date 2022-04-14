@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Tilemaps;
 
 public class Health : MonoBehaviour
 {
@@ -17,7 +18,9 @@ public class Health : MonoBehaviour
     public Sprite emptyHeart;
 
     [Header("Damage")]
-    public GameObject damageTilemap;
+    public Tilemap damageTilemap;
+    float timeOnCollision = 0f;
+    public float timeThreshold;
 
     void Start() {
         numberOfHearts = numOfHearts;
@@ -58,8 +61,23 @@ public class Health : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.tag == "Dmg") {
+        if (collision.gameObject.tag == "Enemy") {
+            // Timer Reset
+            timeOnCollision = 0f;
+
             DealDamage(1);
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision) {
+        if (collision.gameObject.tag == "Enemy") {
+            if (timeOnCollision < timeThreshold) {
+                timeOnCollision += Time.deltaTime;
+            } else {
+                DealDamage(1);
+
+                timeOnCollision = 0f;
+            }
         }
     }
 }

@@ -15,4 +15,6 @@ EditorBuildSettings:
     path: Assets/Levels/GameJolt/GameJoltUI.unity
     guid: be2b50d199de26844b5bd80293ee2143
   m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 7ee7a9ab0a8b888418805be75b0cfe6c, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: a486d23ff5ac0de4785e52fc16afc077, type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: 6b1b8fca9d2c18c44a894b49812820b7, type: 2}

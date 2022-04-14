@@ -40,6 +40,9 @@ public class ESCMenu : MonoBehaviour
         escMenu.gameObject.SetActive(true);
         Time.timeScale = 0;
         DiscordController.ChangeActivity("Paused", "asign", "Paused");
+        if (!DebugController.cursor_visible) {
+            DebugController.cursor_visible = true;
+        }
     }
 
     void HideMenu() {
@@ -47,5 +50,8 @@ public class ESCMenu : MonoBehaviour
         escMenu.gameObject.SetActive(false);
         Time.timeScale = 1;
         DiscordController.ChangeActivity("Playing", "gamelogo", "Playing");
+        if (DebugController.cursor_visible) {
+            DebugController.cursor_visible = false;
+        }
     }
 }
