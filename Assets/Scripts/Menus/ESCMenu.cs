@@ -1,25 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ESCMenu : MonoBehaviour
 {
     public GameObject escMenu;
-    bool menuOpen = false;
+    public static GameObject escMenuS;
+    public static bool menuOpen = false;
 
     void Start() {
+        escMenuS = escMenu;
         HideMenu();
         menuOpen = false;
     }
 
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown("joystick button 7")) {
-            if (menuOpen == false) {
-                ShowMenu();
-            } else {
-                HideMenu();
-            }
+    public static void ESCMenuCheck() {
+        if (menuOpen == false) {
+            ShowMenu();
+        } else {
+            HideMenu();
         }
     }
 
@@ -35,9 +33,9 @@ public class ESCMenu : MonoBehaviour
         Application.Quit();
     }
 
-    void ShowMenu() {
+    static void ShowMenu() {
         menuOpen = true;
-        escMenu.gameObject.SetActive(true);
+        escMenuS.gameObject.SetActive(true);
         Time.timeScale = 0;
         DiscordController.ChangeActivity("Paused", "asign", "Paused");
         if (!DebugController.cursor_visible) {
@@ -45,9 +43,9 @@ public class ESCMenu : MonoBehaviour
         }
     }
 
-    void HideMenu() {
+    static void HideMenu() {
         menuOpen = false;
-        escMenu.gameObject.SetActive(false);
+        escMenuS.gameObject.SetActive(false);
         Time.timeScale = 1;
         DiscordController.ChangeActivity("Playing", "gamelogo", "Playing");
         if (DebugController.cursor_visible) {

@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 public class Health : MonoBehaviour
 {
@@ -45,6 +44,11 @@ public class Health : MonoBehaviour
             } else {
                 hearts[i].enabled = false;
             }
+        }
+
+        if (health == 0) {
+            Cursor.visible = true;
+            SceneManager.LoadScene("MainMenu");
         }
     }
 

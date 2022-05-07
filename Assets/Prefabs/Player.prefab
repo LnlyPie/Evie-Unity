@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 2325003724858187046}
   - component: {fileID: 2325003724858187033}
   - component: {fileID: 2325003724858187032}
+  - component: {fileID: 5368689100701675215}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -171,7 +172,7 @@ MonoBehaviour:
   dialogueUI: {fileID: 0}
   speedVar: 4.5
   jumpForceVar: 10.5
-  extraJumpsValue: 1
+  extraJumpsValue: 2
   groundCheck: {fileID: 2325003724931805982}
   checkRadius: 0.8
   whatIsGround:
@@ -215,6 +216,78 @@ MonoBehaviour:
   - {fileID: 0}
   fullHeart: {fileID: 4432793351920879750, guid: c4cd448e847ea2b4a9b3b7cb2029c7c7, type: 3}
   emptyHeart: {fileID: 5642012044021194823, guid: c4cd448e847ea2b4a9b3b7cb2029c7c7, type: 3}
+  damageTilemap: {fileID: 0}
+  timeThreshold: 0
+--- !u!114 &5368689100701675215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2325003724858187040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 9d5d53c69469b5c4283cfff949361091, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b75b061a-4da9-4810-b39d-7b43a6757dea
+    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 84d24b1c-f18e-4d9d-8442-73078782ab7b
+    m_ActionName: Player/DebugKey[/Keyboard/backquote]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a57531a7-94fd-4a8c-bb52-d76b0aa2d11c
+    m_ActionName: Player/Sprint[/Keyboard/leftShift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7367c806-adba-45b2-b3e2-61168dafa72b
+    m_ActionName: Player/Jump[/Keyboard/w,/Keyboard/upArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bed77529-a4dd-469c-aaa3-0d4240078fa4
+    m_ActionName: Player/Interact[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5ed07d80-b072-429a-af0e-bc5e42ebb2c7
+    m_ActionName: Player/ESCMenu[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 43e33bfd-3a64-46e6-aea3-c6860c57688a
+    m_ActionName: Player/Mouse[/Mouse/leftButton,/DualShock4GamepadHID/select]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &2325003724862332049
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,7 +328,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2325003724862332049}
   serializedVersion: 7
-  lengthInSec: 0.15
+  lengthInSec: 0.1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -383,7 +456,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -815,7 +888,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 1000
+    maxNumParticles: 5
     size3D: 0
     rotation3D: 0
     gravityModifier:

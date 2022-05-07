@@ -42,3 +42,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Surrounds
+    uniqueID: 3502885425
+    locked: 0

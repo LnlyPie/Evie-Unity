@@ -8,7 +8,7 @@ public class DiscordController : MonoBehaviour
     public static Discord.Discord discord = new Discord.Discord(956575345862139954, (System.UInt64)Discord.CreateFlags.Default);
 
     public static void ChangeActivity(string details, string largeIcon, string largeText) {
-        var activityManager = discord.GetActivityManager();
+        /*var activityManager = discord.GetActivityManager();
         var activity = new Discord.Activity {
             Details = details,
             State = Variables.version,
@@ -23,11 +23,11 @@ public class DiscordController : MonoBehaviour
             } else {
                 Debug.LogError("Discord Status Failed!");
             }
-        });
+        });*/
     }
 
     void Update()
     {
-        discord.RunCallbacks();
+        // discord.RunCallbacks();
     }
 }

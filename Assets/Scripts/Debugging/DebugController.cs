@@ -28,7 +28,8 @@ public class DebugController : MonoBehaviour
     [SerializeField] private GameObject consoleBox;
     [SerializeField] private TMP_Text outputText;
     [SerializeField] private TMP_InputField consoleField;
-    bool consoleStatus = false;
+    private static GameObject consoleBoxS;
+    public static bool consoleStatus = false;
 
     bool showHelp;
     public static bool cursor_visible = false;
@@ -37,15 +38,12 @@ public class DebugController : MonoBehaviour
 
     private void Start() {
         consoleBox.SetActive(false);
+        consoleBoxS = consoleBox;
         outputText.text = "";
         input = null;
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown("joystick button 5")) {
-            OpenConsole();
-        }
-
         if (consoleStatus) {
             if (gamej.playerLoggedIn) {
                 gamej.UnlockTrophy(158872);
@@ -64,15 +62,21 @@ public class DebugController : MonoBehaviour
         }
     }
 
-    private void OpenConsole() {
+    public static void OpenConsole() {
         if (!consoleStatus) {
             consoleStatus = true;
-            consoleBox.SetActive(true);
+            cursor_visible = true;
+            consoleBoxS.SetActive(true);
         }
         else if (consoleStatus) {
             consoleStatus = false;
-            consoleBox.SetActive(false);
+            cursor_visible = false;
+            consoleBoxS.SetActive(false);
         }
+    }
+
+    public void OnDebug(InputAction.CallbackContext context) {
+        DebugController.OpenConsole();
     }
 
     private void Awake() {

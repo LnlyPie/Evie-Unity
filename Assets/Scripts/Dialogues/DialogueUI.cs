@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class DialogueUI : MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class DialogueUI : MonoBehaviour
     private IEnumerator StepThroughDialogue(DialogueObject dialogueObject) {
         foreach (string dialogue in dialogueObject.Dialogue) {
             yield return typeWriterEffect.Run(dialogue, textLabel);
-            yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown("joystick button 2")));
+            yield return new WaitUntil(() => Gamepad.current.buttonWest.wasPressedThisFrame);
         }
 
         CloseDialogueBox();
