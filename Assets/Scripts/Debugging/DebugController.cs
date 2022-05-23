@@ -44,6 +44,10 @@ public class DebugController : MonoBehaviour
     }
 
     void Update() {
+        if ((Input.GetKeyDown(KeyCode.BackQuote) || Input.GetKeyDown("joystick button 6"))) {
+            OpenConsole();
+        }
+
         if (consoleStatus) {
             if (gamej.playerLoggedIn) {
                 gamej.UnlockTrophy(158872);
@@ -73,10 +77,6 @@ public class DebugController : MonoBehaviour
             cursor_visible = false;
             consoleBoxS.SetActive(false);
         }
-    }
-
-    public void OnDebug(InputAction.CallbackContext context) {
-        DebugController.OpenConsole();
     }
 
     private void Awake() {

@@ -27,7 +27,7 @@ public class DialogueUI : MonoBehaviour
     private IEnumerator StepThroughDialogue(DialogueObject dialogueObject) {
         foreach (string dialogue in dialogueObject.Dialogue) {
             yield return typeWriterEffect.Run(dialogue, textLabel);
-            yield return new WaitUntil(() => Gamepad.current.buttonWest.wasPressedThisFrame);
+            yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown("joystick button 2")));
         }
 
         CloseDialogueBox();

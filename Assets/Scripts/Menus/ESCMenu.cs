@@ -13,11 +13,13 @@ public class ESCMenu : MonoBehaviour
         menuOpen = false;
     }
 
-    public static void ESCMenuCheck() {
-        if (menuOpen == false) {
-            ShowMenu();
-        } else {
-            HideMenu();
+    void Update() {
+        if ( (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown("joystick button 7")) ) {
+            if (!menuOpen) {
+                ShowMenu();
+            } else {
+                HideMenu();
+            }
         }
     }
 

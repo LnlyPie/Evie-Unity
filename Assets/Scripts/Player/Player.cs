@@ -10,14 +10,12 @@ public class Player : MonoBehaviour {
     public IInteractable Interactable { get; set; }
 
     [Header("Movement")]
-    private float inputX;
-    private float inputY;
-
     public float speedVar;
     public float jumpForceVar;
     private float speed;
     private float jumpForce;
     public static bool canMove = true;
+    private float moveInput;
     private bool jumpInput;
     private bool jumpInputPad;
     private bool facingRight = true;
@@ -55,8 +53,10 @@ public class Player : MonoBehaviour {
     }
 
     private void Update() {
-        rb.velocity = new Vector2(inputX * speed, rb.velocity.y);
+        // Less-Movement related stuff
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
+        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+        moveInput = Input.GetAxis("Horizontal");
 
         if (!canMove) {
             speed = 0f;
@@ -66,63 +66,43 @@ public class Player : MonoBehaviour {
             jumpForce = jumpForceVar;
         }
 
-        if ((!facingRight && inputX > 0 && canMove) || (facingRight && inputX < 0 && canMove)) {
+        if ((!facingRight && moveInput > 0f && canMove) || (facingRight && moveInput < 0f && canMove)) {
             Flip();
         }
 
         if (isGrounded == true) {
             extraJumps = extraJumpsValue;
         }
-    }
 
-    public void OnMove(InputAction.CallbackContext context) {
-        if (canMove) {
-            inputX = context.ReadValue<Vector2>().x;
 
+        if ((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown("joystick button 2"))) {
+            if (!DialogueUI.isOpen) {
+                Interactable?.Interact(this);
+            }
+        }
+
+        // More-Movement related stuff
+        if ((moveInput > 0f || moveInput < 0f) && canMove) {
             anim.SetBool("moving", true);
-        }
 
-        if (anim.GetBool("jumping")) {
+            if ( (Input.GetKey(KeyCode.LeftShift) || Input.GetKey("joystick button 4")) ) {
+                rb.velocity = new Vector2(moveInput * (speed * 1.55f), rb.velocity.y);
+                jumpForce = jumpForceVar * 1.05f;
+            }
+        } else {
             anim.SetBool("moving", false);
         }
 
-        if (context.canceled) {
-            anim.SetBool("moving", false);
-        }
-    }
-
-    public void OnSprint(InputAction.CallbackContext context) {
-        rb.velocity = new Vector2(inputX * (speed * 1.55f), rb.velocity.y);
-        jumpForce = jumpForceVar * 1.05f;
-    }
-
-    public void OnJump(InputAction.CallbackContext context) {
-        if (canMove && extraJumps > 0) {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            // soundMan.PlaySoundEffect("jump");
-            extraJumps--;
-            CreateDust();
-
-            anim.SetBool("jumping", true);
-        }
-
-        if (context.canceled) {
-            anim.SetBool("jumping", false);
-        }
-    }
-
-    public void OnInteract(InputAction.CallbackContext context) {
-        if (!DialogueUI.isOpen) {
-            Interactable?.Interact(this);
-        }
-    }
-
-    public void OnMouse(InputAction.CallbackContext context) {
-        if (context.started) {
-            Mouse.CursorClicked();
-        } else
-        {
-            Mouse.CursorNormal();
+        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown("joystick button 0"))) {
+            if (canMove && extraJumps > 0) {
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                soundMan.PlaySoundEffect("jump");
+                extraJumps--;
+                CreateDust();
+            } else if (unlimitedJumpMode && canMove) {
+                CreateDust();
+                rb.velocity = new Vector2(rb.velocity.x, speed+5);
+            }
         }
     }
 
@@ -138,12 +118,5 @@ public class Player : MonoBehaviour {
 
     void CreateDust() {
         dust.Play();
-    }
-
-
-
-
-    public void OnEsc(InputAction.CallbackContext context) {
-        ESCMenu.ESCMenuCheck();
     }
 }
