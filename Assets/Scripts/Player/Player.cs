@@ -66,7 +66,7 @@ public class Player : MonoBehaviour {
             jumpForce = jumpForceVar;
         }
 
-        if ((!facingRight && moveInput > 0f && canMove) || (facingRight && moveInput < 0f && canMove)) {
+        if ((!facingRight && (moveInput > 0f) && canMove) || (facingRight && (moveInput < 0f) && canMove)) {
             Flip();
         }
 
