@@ -12,6 +12,7 @@ public class DebugDisplay : MonoBehaviour {
     // Player Pos
     private GameObject playerObj;
     private string playerPos;
+    private string dashStatus;
 
     void Start() {
         DebugText.gameObject.SetActive(false);
@@ -27,7 +28,9 @@ public class DebugDisplay : MonoBehaviour {
             playerObj = GameObject.FindGameObjectWithTag("Player");
             playerPos = ("X " + playerObj.transform.position.x + " Y " + playerObj.transform.position.y);
 
-            DebugText.text = ("FPS: " + frameRate.ToString() + "\nPos: " + playerPos);
+            dashStatus = ("Always Ready");
+
+            DebugText.text = ("FPS: " + frameRate.ToString() + "\nPos: " + playerPos + "\nDash: " + dashStatus);
 
             time -= updateTime;
             frameCount = 0;

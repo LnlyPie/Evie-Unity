@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,13 +18,15 @@ public class Player : MonoBehaviour {
     public static bool canMove = true;
     private float moveInput;
     private bool jumpInput;
-    private bool jumpInputPad;
     private bool facingRight = true;
 
     private int extraJumps;
     public int extraJumpsValue;
     private int jumps;
     public static float gravity = 2.0f;
+
+    public float dashDistance = 15f;
+    bool isDashing;
 
     public static Rigidbody2D rb;
     public static BoxCollider2D bc;
@@ -57,10 +60,13 @@ public class Player : MonoBehaviour {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
         rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
         moveInput = Input.GetAxis("Horizontal");
+        jumpInput = (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown("joystick button 0"));
 
         if (!canMove) {
             speed = 0f;
             jumpForce = 0f;
+        } else if (isDashing) {
+            speed = (speedVar * 2);
         } else {
             speed = speedVar;
             jumpForce = jumpForceVar;
@@ -70,7 +76,7 @@ public class Player : MonoBehaviour {
             Flip();
         }
 
-        if (isGrounded == true) {
+        if (isGrounded) {
             extraJumps = extraJumpsValue;
         }
 
@@ -82,18 +88,22 @@ public class Player : MonoBehaviour {
         }
 
         // More-Movement related stuff
-        if ((moveInput > 0f || moveInput < 0f) && canMove) {
-            anim.SetBool("moving", true);
+        //   Movement
+        if (!isDashing) {
+            if ((moveInput > 0f || moveInput < 0f) && canMove) {
+                anim.SetBool("moving", true);
 
-            if ( (Input.GetKey(KeyCode.LeftShift) || Input.GetKey("joystick button 4")) ) {
-                rb.velocity = new Vector2(moveInput * (speed * 1.55f), rb.velocity.y);
-                jumpForce = jumpForceVar * 1.05f;
+                if ( (Input.GetKey(KeyCode.LeftShift) || Input.GetKey("joystick button 4")) ) {
+                    rb.velocity = new Vector2(moveInput * (speed * 1.40f), rb.velocity.y);
+                    jumpForce = jumpForceVar * 1.05f;
+                }
+            } else {
+                anim.SetBool("moving", false);
             }
-        } else {
-            anim.SetBool("moving", false);
         }
 
-        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown("joystick button 0"))) {
+        //   Jumping
+        if (jumpInput) {
             if (canMove && extraJumps > 0) {
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                 soundMan.PlaySoundEffect("jump");
@@ -103,6 +113,13 @@ public class Player : MonoBehaviour {
                 CreateDust();
                 rb.velocity = new Vector2(rb.velocity.x, speed+5);
             }
+        }
+
+        //   Dashing
+        if ((Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown("joystick button 5")) && moveInput > 0f) {
+            StartCoroutine(Dash(1f));
+        } else if ((Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown("joystick button 5")) && moveInput < 0f) {
+            StartCoroutine(Dash(-1f));
         }
     }
 
@@ -114,6 +131,17 @@ public class Player : MonoBehaviour {
         if (isGrounded) {
             CreateDust();
         }
+    }
+
+    private IEnumerator Dash(float direction) {
+        isDashing = true;
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
+        rb.AddForce(new Vector2(dashDistance * direction, 0f), ForceMode2D.Impulse);
+        float gravity = rb.gravityScale;
+        rb.gravityScale = 0;
+        yield return new WaitForSeconds(0.4f);
+        isDashing = false;
+        rb.gravityScale = gravity;
     }
 
     void CreateDust() {
