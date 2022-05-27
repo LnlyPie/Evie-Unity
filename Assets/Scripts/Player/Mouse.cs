@@ -5,7 +5,7 @@ public class Mouse : MonoBehaviour
     public Texture2D normalCursor;
     public Texture2D clickedCursor;
 
-    void FixedUpdate() {
+    void Update() {
         if (Input.GetMouseButton(0)) {
             Cursor.SetCursor(clickedCursor, new Vector2(0,0), CursorMode.Auto);
         } else {

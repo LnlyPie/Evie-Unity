@@ -8,6 +8,8 @@ public class GameJoltUIScript : MonoBehaviour {
 	public Button ShowTrophiesButton;
 	public bool playerLoggedIn = false;
 
+	SceneHandler scene = new SceneHandler();
+
 	public void AutoLoginCallback(AutoLoginResult result) {
 		Debug.Log(string.Format("Auto login result: {0}", result));
 		DownloadAvatar();
@@ -59,7 +61,7 @@ public class GameJoltUIScript : MonoBehaviour {
 	}
 
 	public void GoBack() {
-		SceneManager.LoadScene("MainMenu");
+		scene.loadScene("MainMenu");
 	}
 
 	public void Pause() {

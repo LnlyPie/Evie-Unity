@@ -40,6 +40,7 @@ public class Player : MonoBehaviour {
 
     [Header("Particles")]
     public ParticleSystem dust;
+    public ParticleSystem dash;
 
     // Cheats
     public static bool ghost_mode = false;
@@ -134,6 +135,7 @@ public class Player : MonoBehaviour {
     }
 
     private IEnumerator Dash(float direction) {
+        CreateDashWind();
         isDashing = true;
         rb.velocity = new Vector2(rb.velocity.x, 0f);
         rb.AddForce(new Vector2(dashDistance * direction, 0f), ForceMode2D.Impulse);
@@ -146,5 +148,10 @@ public class Player : MonoBehaviour {
 
     void CreateDust() {
         dust.Play();
+    }
+
+    void CreateDashWind()
+    {
+        dash.Play();
     }
 }

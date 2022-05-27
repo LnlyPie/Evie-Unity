@@ -6,13 +6,14 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     GameJoltUIScript gamej = new GameJoltUIScript();
+    SceneHandler scene = new SceneHandler();
 
     void Start() {
         DiscordController.ChangeActivity("Main Menu", "asign", "In Main Menu");
     }
 
     public void PlayGame() {
-        SceneManager.LoadScene("TestLevel");
+        scene.loadScene("TestLevel");
         DiscordController.ChangeActivity("Playing", "gamelogo", "Playing");
     }
 
@@ -21,7 +22,7 @@ public class MainMenu : MonoBehaviour
     }
 
     public void GameJolt() {
-        SceneManager.LoadScene("GameJoltUI");
+        scene.loadScene("GameJoltUI");
         DiscordController.ChangeActivity("GameJolt Login", "gamejolt", "GameJolt Login Screen");
     }
 

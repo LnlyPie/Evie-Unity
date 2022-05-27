@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class ESCMenu : MonoBehaviour
 {
+    SceneHandler scene = new SceneHandler();
+
     public GameObject escMenu;
     public static GameObject escMenuS;
     public static bool menuOpen = false;
@@ -28,7 +30,7 @@ public class ESCMenu : MonoBehaviour
     }
 
     public void MainMenu() {
-        SceneManager.LoadScene("MainMenu");
+        scene.loadScene("MainMenu");
     }
 
     public void QuitGame() {
